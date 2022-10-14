@@ -1,0 +1,70 @@
+library("HSAUR2")
+library("psych")
+data("pottery")
+#45 cerâmicas foram observadas em 5 sitios arqueologicos diferentes e foram medidas as concentrações de 9 tipos de óxidos diferentes.
+
+############analise descritiva############
+pot = pottery[-10]
+boxplot(pot, xlab="Diferentes Óxidos", ylab="Concentração")
+describe(pot) #comentar algumas medidas das diferentes variaveis 
+describe(pot)[8]
+describe(pot)[9]
+
+sitiosf = table(pottery$kiln) #vendo frequencia dos sitios na base de dados
+
+par(mar = c(5, 5, 5, 5))
+barplot(sitiosf,ylim=c(0,25),xlab = "Sítio Arqueológico", ylab="Frequência",col=c("#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"))
+
+s1 = pottery[pottery$kiln==1,] #vendo comportamento das variaveis em cada sitio especifico
+s2= pottery[pottery$kiln==2,]
+s3= pottery[pottery$kiln==3,]
+s4= pottery[pottery$kiln==4,]
+s5= pottery[pottery$kiln==5,]
+
+boxplot(pottery$Al2O3, s1$Al2O3,s2$Al2O3,s3$Al2O3,s4$Al2O3,s5$Al2O3, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração Al2O3")
+boxplot(pottery$Fe2O3, s1$Fe2O3,s2$Fe2O3,s3$Fe2O3,s4$Fe2O3,s5$Fe2O3, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração Fe2O3")
+boxplot(pottery$MgO, s1$MgO,s2$MgO,s3$MgO,s4$MgO,s5$MgO, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração MgO")
+boxplot(pottery$CaO, s1$CaO,s2$CaO,s3$CaO,s4$CaO,s5$CaO, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração CaO")
+boxplot(pottery$Na2O, s1$Na2O,s2$Na2O,s3$Na2O,s4$Na2O,s5$Na2O, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração Na2O")
+boxplot(pottery$K2O, s1$K2O,s2$K2O,s3$K2O,s4$K2O,s5$K2O, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração K2O")
+boxplot(pottery$TiO2, s1$TiO2,s2$TiO2,s3$TiO2,s4$TiO2,s5$TiO2, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração TiO2")
+boxplot(pottery$MnO, s1$MnO,s2$MnO,s3$MnO,s4$MnO,s5$MnO, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração MnO")
+boxplot(pottery$BaO, s1$BaO,s2$BaO,s3$BaO,s4$BaO,s5$BaO, names = c("Todos","1","2","3","4","5"), xlab="Sítios Arqueológicos", col=c("grey","#1a7043","#5fb0ff","#783f04","#ffd966","#be0032"),ylab="Concentração BaO")
+
+#############analise multivariada############
+pot_pca = prcomp(pot, scale=T);pot_pca
+
+summary(pot_pca) #autovalores = variancia das CPs
+
+preditos_pca = as.data.frame(predict(pot_pca))
+preditos_pca= preditos_pca[,-c(3:9)]
+
+hc = hclust(dist(preditos_pca),"single") #distancia média entre observações de diferentes cluesteres
+plot(as.dendrogram(hc, hang=-1), main="Método 'single'", xlab = "Identificação da observação", ylab="Distância")
+rect.hclust(hc, k = 4)
+
+pottery[11,]
+
+################# extra ################# 
+
+library(scatterplot3d)
+scatterplot3d(
+  pot_pca$rotation[,1], pot_pca$rotation[,2], pot_pca$rotation[,3], # data
+  main = "Diagrama 3 componentes principais", # title
+  xlab = "CP1",           # x label
+  ylab = "CP2",          # y label   
+  zlab = "CP3",           # z label
+  color = "purple",     
+  angle = 60) # angle of the camera
+#pch=19)
+
+plot(pot_pca$rotation[,1], pot_pca$rotation[,2],main = "Diagrama 2 componentes principais",pch=19, xlab="CP1", ylab="CP2",xlim = c(-0.5,0.5),ylim=c(-0.3,0.7))
+text(pot_pca$rotation[,1],pot_pca$rotation[,2], labels=c(colnames(pot)), cex=0.9, pos = c(2,2))
+#identify(pot_pca$rotation[,1],pot_pca$rotation[,2])
+#subset(pot_pca$rotation[,1], pot_pca$rotation[,1] > 0.3 & pot_pca$rotation[,2] < 0)
+
+plot(preditos_pca,main = "Diagrama predição 2 componentes principais",pch=19,xlab = "CP1 chapeu",ylab = "CP2 chapeu")
+text(preditos_pca, labels=1:nrow(preditos_pca), cex=0.9, pos = c(2,1))
+
+biplot(pot_pca, 
+       pc.biplot = T, cex = 0.7, expand = 0.8, xlab="CP1", ylab="CP2")
