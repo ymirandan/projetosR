@@ -39,14 +39,6 @@ summary(pot_pca) #autovalores = variancia das CPs
 preditos_pca = as.data.frame(predict(pot_pca))
 preditos_pca= preditos_pca[,-c(3:9)]
 
-hc = hclust(dist(preditos_pca),"single") #distancia média entre observações de diferentes cluesteres
-plot(as.dendrogram(hc, hang=-1), main="Método 'single'", xlab = "Identificação da observação", ylab="Distância")
-rect.hclust(hc, k = 4)
-
-pottery[11,]
-
-################# extra ################# 
-
 library(scatterplot3d)
 scatterplot3d(
   pot_pca$rotation[,1], pot_pca$rotation[,2], pot_pca$rotation[,3], # data
@@ -68,3 +60,9 @@ text(preditos_pca, labels=1:nrow(preditos_pca), cex=0.9, pos = c(2,1))
 
 biplot(pot_pca, 
        pc.biplot = T, cex = 0.7, expand = 0.8, xlab="CP1", ylab="CP2")
+
+hc = hclust(dist(preditos_pca),"single") #distancia média entre observações de diferentes cluesteres
+plot(as.dendrogram(hc, hang=-1), main="Método 'single'", xlab = "Identificação da observação", ylab="Distância")
+rect.hclust(hc, k = 4)
+
+pottery[11,]
