@@ -1,11 +1,15 @@
-#Analizar questões do livro Análise de Modelos de Regressão Linear com Aplicações (CHARNET et al, 2008)
+#Aqui temos os dados da questão 6 do livro Análise de Modelos de Regressão Linear com Aplicações (CHARNET et al, 2008).
+#A fim de tornar o exemplo mais educativo a autora adicionou o contexto aos dados
 
-x = c(10.875,11,11.125,11.5,12,12.25,12.5,13.75,13.75,14,14.5,15.5,16.25,17,19)
-y=c(71.05,70.59,69.21,68.82,69.24,68.14,67.8,67.03,67.42,66.94,68.8,65.14,64.04,63.98,62.96)
+x = c(10.875,11,11.125,11.5,12,12.25,12.5,13.75,13.75,14,14.5,15.5,16.25,17,19) #variavel independente
+y=c(71.05,70.59,69.21,68.82,69.24,68.14,67.8,67.03,67.42,66.94,68.8,65.14,64.04,63.98,62.96) #variavel dependente
 dados = data.frame(x,y)
+
 ajuste = lm(y~x,dados)
+
 dados2 = dados[-c(11,15),]
 ajuste2 = lm(y~x,dados2)
+
 dados3 = data.frame(x=x,y=y)
 dados3 = dados3[-11,]
 ajuste3 = lm(y~x,dados3)
