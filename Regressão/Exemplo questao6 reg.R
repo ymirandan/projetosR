@@ -1,3 +1,5 @@
+#Analizar questões do livro Análise de Modelos de Regressão Linear com Aplicações (CHARNET et al, 2008)
+
 x = c(10.875,11,11.125,11.5,12,12.25,12.5,13.75,13.75,14,14.5,15.5,16.25,17,19)
 y=c(71.05,70.59,69.21,68.82,69.24,68.14,67.8,67.03,67.42,66.94,68.8,65.14,64.04,63.98,62.96)
 dados = data.frame(x,y)
