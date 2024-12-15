@@ -1,0 +1,103 @@
+require(MVN)
+require(MVA)
+require(mvtnorm)
+require(MASS)
+library(MVTests)
+library(car)
+library(GGally)
+library(psych)
+library(scatterplot3d)
+library("ggpubr")
+library(dplyr)
+
+############# a ############# 
+base_masc = base_dados[1:25,1:4]
+base_fem = base_dados[26:50,1:4]
+base = base_dados[,-5]
+
+
+m_g = colMeans(base)
+
+m_f = colMeans(base_fem)
+
+m_m = colMeans(base_masc)
+
+
+cbind(m_g, m_f, m_m)
+
+
+round(cor(base),4)
+
+round(cor(base_fem),4)
+
+round(cor(base_masc),4)
+
+############# b ############# 
+ggpairs(base,columns=c(1:4),
+        diag = list(continuous = wrap("densityDiag", alpha=.5 )), title="Global")
+
+ggpairs(base_fem,
+        diag = list(continuous = wrap("densityDiag", alpha=.5 )), title="Feminino")
+
+ggpairs(base_masc,
+        diag = list(continuous = wrap("densityDiag", alpha=.5 )), title="Masculino")
+
+
+boxplot(base$X1, base_fem$X1, base_masc$X1, main = "Boxplot X1", names=c("Global","Feminino","Masculino"),col=c("orange","#f9429e","blue"))
+
+boxplot(base$X2, base_fem$X2, base_masc$X2, main = "Boxplot X2", names=c("Global","Feminino","Masculino"),col=c("orange","#f9429e","blue"))
+
+boxplot(base$X3, base_fem$X3, base_masc$X3, main = "Boxplot X3", names=c("Global","Feminino","Masculino"),col=c("orange","#f9429e","blue"))
+
+boxplot(base$X4, base_fem$X4, base_masc$X4, main = "Boxplot X4", names=c("Global","Feminino","Masculino"),col=c("orange","#f9429e","blue"))
+
+############# c ############# 
+
+mvn(data= base,mvnTest = "royston",alpha=0.05) 
+
+mvn(data= base_fem,mvnTest = "royston",alpha=0.05) 
+
+mvn(data= base_masc,mvnTest = "royston",alpha=0.05) 
+
+############# d + e############# 
+mu0 = c(0.40,4.50,3.52,51.15)
+
+OneSampleHT2(base_fem,mu0,alpha = 0.05)
+
+OneSampleHT2(base_masc,mu0,alpha = 0.05)
+
+############# f ############# 
+base_dados$X5 = as.factor(base_dados$X5)
+
+res <- aov(X1~ X5, data = base_dados)
+res2 <- aov(X2~ X5, data = base_dados)
+res3 <- aov(X3~ X5, data = base_dados)
+res4 <- aov(X4~ X5, data = base_dados)
+
+require(DescTools)
+PostHocTest(res, method = "bonferroni")
+PostHocTest(res2, method = "bonferroni")
+PostHocTest(res3, method = "bonferroni")
+PostHocTest(res4, method = "bonferroni")
+
+############# g ############# 
+
+#base feminina: x1 e x2 com 0.93 de correlacao
+
+dataEllipse(base_fem$X1, base_fem$X2,col="#f9429e", levels=c(0.90,0.95,0.99),
+            ellipse.label=c(0.90,0.95,0.99),
+            center.pch=19, lty=2, fill=TRUE, fill.alpha=0.1,
+            xlim=c(min(base_fem$X1)-0.5,max(base_fem$X1)+0.5), 
+            ylim=c(min(base_fem$X2)-0.5,max(base_fem$X2)+0.5), grid=TRUE,
+            xlab="X1", ylab="X2",
+            main="Regiões de 95% Confiança Base Feminina")
+
+#base masculina: x1 e x2 com 0.77 de correlacao
+
+dataEllipse(base_masc$X1, base_masc$X2,col="blue", levels=c(0.90,0.95,0.99),
+            ellipse.label=c(0.90,0.95,0.99),
+            center.pch=19, lty=2, fill=TRUE, fill.alpha=0.1,
+            xlim=c(min(base_masc$X1)-0.5,max(base_masc$X1)+0.5), 
+            ylim=c(min(base_masc$X2)-0.5,max(base_masc$X2)+0.5), grid=TRUE,
+            xlab="X1", ylab="X2",
+            main="Regiões de 95% Confiança Base Masculina")
