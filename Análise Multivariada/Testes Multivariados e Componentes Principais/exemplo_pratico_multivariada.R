@@ -32,7 +32,7 @@ describe(x)
 describe(fem)
 describe(masc)
 
-#gr�ficos descritivos
+#gráficos descritivos
 plot(x)
 cor(x)
 
@@ -48,11 +48,11 @@ rug(x$peitoral, side=2)
 #sapply(colnames(x), function(y){
 #      qqnorm(x[[y]], main=y)
 #      qqline(x[[y]])
- # }) criar fun��o que faz sozinho
+ # }) criar função que faz sozinho
 par(mfrow=c(1,3),mar = c(5,7,5,5))
-qqnorm(medidas$peitoral, main = "QQplot da Variável 'peitoral'");qqline(medidas$peitoral)
-qqnorm(medidas$cintura, main = "QQplot da Variável 'cintura'");qqline(medidas$cintura)
-qqnorm(medidas$quadril, main = "QQplot da Variável 'quadril'");qqline(medidas$quadril)
+qqnorm(medidas$peitoral, main = "QQplot da VariÃ¡vel 'peitoral'");qqline(medidas$peitoral)
+qqnorm(medidas$cintura, main = "QQplot da VariÃ¡vel 'cintura'");qqline(medidas$cintura)
+qqnorm(medidas$quadril, main = "QQplot da VariÃ¡vel 'quadril'");qqline(medidas$quadril)
 
 cm = colMeans(x)
 s = cov(x)
@@ -61,7 +61,7 @@ d = apply(x, MARGIN=1,function(x) t(x-cm)%*% solve(s)%*% (x-cm))
 par(mar = c(5,7,5,5))
 plot(qchisq((1:nrow(x)-1/2)/nrow(x), df=3),sort(d),
      xlab=expression(paste("Quantil ", chi[3]^2)), 
-     ylab = "Distância Ordenada",  main = "Gráfico Qui Quadrado")
+     ylab = "DistÃ¢ncia Ordenada",  main = "GrÃ¡fico Qui Quadrado")
 oups = which(rank(abs(qc-sd), ties ="random") > nrow(x)-3)
 text(qc[oups],sd[oups]-1.5,names(oups))
 abline(a=0,b=1)
@@ -71,7 +71,7 @@ mvn(data= x,mvnTest = "royston",alpha=0.05)
 
 grupo = c(rep(1,10), rep(2,10)) #codificando masc = 1 e fem = 2
 result = TwoSamplesHT2(x, group = grupo, alpha = 0.05)
-summary(result) #vetor de medias pop masculino � diferente do feminino; apenas a variavel cintura difere entre os grupos
+summary(result) #vetor de medias pop masculino é diferente do feminino; apenas a variavel cintura difere entre os grupos
 
 ################### NOVA BASE
 ########### POTTERY + PC ##########
@@ -79,7 +79,7 @@ data("pottery")
 pot = pottery[-10]
 pot_pca = prcomp(pot, scale=T)
 summary(pot_pca)
-pairs(main = "Relação das Componentes Principais", pot_pca$rotation[,1:4],lower.panel = NULL, xlim=c(-0.8, 0.8),ylim=c(-0.8, 1.2),
+pairs(main = "RelaÃ§Ã£o das Componentes Principais", pot_pca$rotation[,1:4],lower.panel = NULL, xlim=c(-0.8, 0.8),ylim=c(-0.8, 1.2),
       panel=function(x,y, ...){
         text(x,y,adj = c(0.5,-0.5),col="red", cex=1.7)
         bvbox(cbind(x,y), add=TRUE)
