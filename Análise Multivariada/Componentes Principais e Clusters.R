@@ -26,12 +26,12 @@ A=cor(heptathlon[, -8])
 cortest.bartlett(A, n = nrow(heptathlon))
 
 
-### PCA usando a matriz de correlação R, ou seja, considerando
-### as var´s padronizadas.
+### PCA usando a matriz de correlaÃ§Ã£o R, ou seja, considerando
+### as varÂ´s padronizadas.
 
-heptathlon_pca_R <- prcomp(heptathlon[, -8], scale = T) ## retirando a variável "score"
+heptathlon_pca_R <- prcomp(heptathlon[, -8], scale = T) ## retirando a variÃ¡vel "score"
 
-tr(cor(heptathlon[, -8])) ## tem que ser = p = Traço(R)=V.Total !!
+tr(cor(heptathlon[, -8])) ## tem que ser = p = TraÃ§o(R)=V.Total !!
 sum(diag(cor(heptathlon[, -8]))) ## outra forma
 
 print(heptathlon_pca_R)
@@ -92,7 +92,7 @@ plot(hc, hang = -1)
 
 
 #Aula dis 30/09 
-#Análise de Cluster
+#AnÃ¡lise de Cluster
 cbind(CP1_hat,CP2_hat)
 hc_sin<-hclust(dist(predict(heptathlon_pca_R)[,1:3]),"sing")
 plot(hc_sin, hang = -1)
